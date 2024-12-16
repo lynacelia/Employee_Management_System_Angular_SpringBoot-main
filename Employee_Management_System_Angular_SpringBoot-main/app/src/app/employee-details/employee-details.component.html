@@ -1,0 +1,25 @@
+<h3>View Employee Details</h3>
+<div>
+  <div>
+    <label><b>First Name:</b></label> {{ employee.firstName }}
+  </div>
+  <div>
+    <label><b>Last Name:</b></label> {{ employee.lastName }}
+  </div>
+  <div>
+    <label><b>Email Id:</b></label> {{ employee.emailId }}
+  </div>
+  <!-- New fields -->
+  <div>
+    <label><b>Phone Number:</b></label> {{ employee.phoneNumber }}
+  </div>
+  <div>
+    <label><b>National ID:</b></label> {{ employee.nationalId }}
+  </div>
+  <div>
+    <label><b>Birth Date:</b></label> {{ employee.birthDate | date:'shortDate' }}
+  </div>
+  <div>
+    <label><b>Position:</b></label> {{ employee.position }}
+  </div>
+</div>
