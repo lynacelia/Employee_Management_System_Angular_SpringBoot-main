@@ -1,0 +1,13 @@
+<div class="details-container" *ngIf="entreprise">
+  <h2>Détails de l'entreprise</h2>
+  <div>
+    <strong>Nom :</strong> {{ entreprise.nom }}
+  </div>
+  <div>
+    <strong>Adresse :</strong> {{ entreprise.adresse }}
+  </div>
+</div>
+
+<div *ngIf="!entreprise">
+  <p>Chargement des données...</p>
+</div>

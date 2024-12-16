@@ -1,0 +1,18 @@
+<div class="form-container" *ngIf="entreprise">
+  <h2>Mettre à jour l'entreprise</h2>
+  <form (ngSubmit)="updateEntreprise()">
+    <div>
+      <label for="nom">Nom de l'entreprise</label>
+      <input type="text" id="nom" [(ngModel)]="entreprise.nom" name="nom" required>
+    </div>
+    <div>
+      <label for="adresse">Adresse</label>
+      <input type="text" id="adresse" [(ngModel)]="entreprise.adresse" name="adresse" required>
+    </div>
+    <button type="submit">Mettre à jour</button>
+  </form>
+</div>
+
+<div *ngIf="!entreprise">
+  <p>Chargement des données...</p>
+</div>

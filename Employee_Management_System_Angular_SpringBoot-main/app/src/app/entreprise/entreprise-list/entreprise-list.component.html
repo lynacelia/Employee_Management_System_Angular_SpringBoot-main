@@ -1,0 +1,9 @@
+<div class="list-container">
+    <h2>Liste des Entreprises</h2>
+    <ul>
+      <li *ngFor="let entreprise of entreprises">
+        <a [routerLink]="['/entreprise-details', entreprise.id]">{{ entreprise.nom }}</a>
+      </li>
+    </ul>
+  </div>
+  
