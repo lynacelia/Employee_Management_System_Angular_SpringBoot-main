@@ -7,7 +7,7 @@ import { Entreprise } from './entreprise';
   providedIn: 'root',
 })
 export class EntrepriseService {
-  private baseURL = 'http://localhost:8080/api/v1/entreprises';  // Remplacer par l'URL de ton API des entreprises
+  private baseURL = 'http://localhost:8081/api/v1/entreprises';  // Remplacer par l'URL de ton API des entreprises
 
   constructor(private httpClient: HttpClient) {}
 

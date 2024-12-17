@@ -1,13 +1,15 @@
-<div class="details-container" *ngIf="entreprise">
-  <h2>Détails de l'entreprise</h2>
+<h3>View Entreprise Details</h3>
+
+<!-- Vérification si entreprise est disponible -->
+<div *ngIf="isEntrepriseAvailable(); else loading">
   <div>
-    <strong>Nom :</strong> {{ entreprise.nom }}
+    <label><b>Nom de l'entreprise:</b></label> {{ entreprise?.nom }}
   </div>
   <div>
-    <strong>Adresse :</strong> {{ entreprise.adresse }}
+    <label><b>Adresse:</b></label> {{ entreprise?.adresse }}
   </div>
 </div>
 
-<div *ngIf="!entreprise">
-  <p>Chargement des données...</p>
-</div>
+<ng-template #loading>
+  <p>Loading...</p> <!-- Message de chargement si les données de l'entreprise ne sont pas encore disponibles -->
+</ng-template>

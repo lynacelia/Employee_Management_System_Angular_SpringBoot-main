@@ -9,7 +9,11 @@
         id="firstName"
         [(ngModel)]="employee.firstName"
         name="firstName"
+        [class.is-invalid]="firstNameInvalid"
       />
+      <div *ngIf="firstNameInvalid" class="invalid-feedback">
+        Le prénom doit être rempli.
+      </div>
     </div>
 
     <div class="form-group">
@@ -20,7 +24,11 @@
         id="lastName"
         [(ngModel)]="employee.lastName"
         name="lastName"
+        [class.is-invalid]="lastNameInvalid"
       />
+      <div *ngIf="lastNameInvalid" class="invalid-feedback">
+        Le nom doit être rempli.
+      </div>
     </div>
 
     <div class="form-group">
@@ -31,10 +39,13 @@
         id="emailId"
         [(ngModel)]="employee.emailId"
         name="emailId"
+        [class.is-invalid]="emailInvalid"
       />
+      <div *ngIf="emailInvalid" class="invalid-feedback">
+        L'adresse e-mail doit être remplie.
+      </div>
     </div>
 
-    <!-- New fields -->
     <div class="form-group">
       <label>Phone Number</label>
       <input
@@ -43,7 +54,11 @@
         id="phoneNumber"
         [(ngModel)]="employee.phoneNumber"
         name="phoneNumber"
+        [class.is-invalid]="phoneInvalid"
       />
+      <div *ngIf="phoneInvalid" class="invalid-feedback">
+        Le numéro de téléphone doit être rempli.
+      </div>
     </div>
 
     <div class="form-group">
@@ -54,7 +69,11 @@
         id="nationalId"
         [(ngModel)]="employee.nationalId"
         name="nationalId"
+        [class.is-invalid]="nationalIdInvalid"
       />
+      <div *ngIf="nationalIdInvalid" class="invalid-feedback">
+        L'identifiant national doit être rempli.
+      </div>
     </div>
 
     <div class="form-group">
@@ -65,7 +84,11 @@
         id="birthDate"
         [(ngModel)]="employee.birthDate"
         name="birthDate"
+        [class.is-invalid]="birthDateInvalid"
       />
+      <div *ngIf="birthDateInvalid" class="invalid-feedback">
+        La date de naissance doit être remplie.
+      </div>
     </div>
 
     <div class="form-group">
@@ -76,9 +99,46 @@
         id="position"
         [(ngModel)]="employee.position"
         name="position"
+        [class.is-invalid]="positionInvalid"
+      />
+      <div *ngIf="positionInvalid" class="invalid-feedback">
+        Le poste doit être rempli.
+      </div>
+    </div>
+
+    <!-- Liste déroulante des entreprises -->
+    <div class="form-group">
+      <label>Entreprise</label>
+      <select
+        class="form-control"
+        id="entreprise"
+        [(ngModel)]="employee.entreprise"
+        name="entreprise"
+        (change)="onEntrepriseChange()"
+        [class.is-invalid]="entrepriseInvalid"
+      >
+        <option *ngFor="let entreprise of entreprises" [value]="entreprise.nom">
+          {{ entreprise.nom }}
+        </option>
+        <option value="Autre">Autre</option>
+      </select>
+      <div *ngIf="entrepriseInvalid" class="invalid-feedback">
+        L'entreprise doit être sélectionnée.
+      </div>
+    </div>
+
+    <!-- Champ pour entrer une autre entreprise si "Autre" est sélectionné -->
+    <div class="form-group" *ngIf="isOtherEntreprise">
+      <label>Nom de l'entreprise</label>
+      <input
+        type="text"
+        class="form-control"
+        id="otherEntreprise"
+        [(ngModel)]="employee.entreprise"
+        name="otherEntreprise"
       />
     </div>
 
-    <button class="btn btn-success" type="submit">Submit</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>

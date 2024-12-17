@@ -1,9 +1,29 @@
-<div class="list-container">
-    <h2>Liste des Entreprises</h2>
-    <ul>
-      <li *ngFor="let entreprise of entreprises">
-        <a [routerLink]="['/entreprise-details', entreprise.id]">{{ entreprise.nom }}</a>
-      </li>
-    </ul>
-  </div>
-  
+<h2 class="text-center">Entreprise List</h2>
+<div class="container">
+  <table class="table table-striped mx-auto">
+    <thead>
+      <tr>
+        <th>Nom de l'entreprise</th>
+        <th>Adresse</th>
+        <th class="text-center">Actions</th> <!-- Alignement du header "Actions" -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entreprise of entreprises">
+        <td>{{ entreprise.nom }}</td>
+        <td>{{ entreprise.adresse }}</td>
+        <td class="text-center"> <!-- Alignement des boutons -->
+          <button *ngIf="entreprise.id" (click)="updateEntreprise(entreprise.id)" class="btn btn-info">
+            Update
+          </button>
+          <button *ngIf="entreprise.id" (click)="deleteEntreprise(entreprise.id)" class="btn btn-danger" style="margin-left: 10px;">
+            Delete
+          </button>
+          <button *ngIf="entreprise.id" (click)="entrepriseDetails(entreprise.id)" class="btn btn-info" style="margin-left: 10px;">
+            View
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

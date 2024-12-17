@@ -18,12 +18,21 @@ export class EntrepriseDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const id = +this.route.snapshot.paramMap.get('id')!;
+    const id = +this.route.snapshot.paramMap.get('id')!; // Récupération de l'ID dans l'URL
     
-    // Appel à l'API pour récupérer les données de l'entreprise
+    // Appel à l'API pour récupérer les détails de l'entreprise
     this.entrepriseService.getEntreprise(id).subscribe({
-      next: (data) => this.entreprise = data, // Assignation des données récupérées à la propriété entreprise
-      error: (err) => console.error('Erreur lors de la récupération de l\'entreprise', err)
+      next: (data) => {
+        this.entreprise = data; // Assignation des données de l'entreprise
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération de l\'entreprise', err);
+      }
     });
+  }
+
+  // Méthode pour vérifier si l'entreprise est disponible
+  isEntrepriseAvailable(): boolean {
+    return this.entreprise !== null;
   }
 }
