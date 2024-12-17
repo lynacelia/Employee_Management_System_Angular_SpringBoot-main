@@ -1,6 +1,7 @@
 <div class="col-md-6 offset-md-3">
   <h3>Create Employee</h3>
   <form (ngSubmit)="onSubmit()">
+    <!-- Autres champs de formulaire -->
     <div class="form-group">
       <label>First Name</label>
       <input
@@ -114,13 +115,16 @@
         id="entreprise"
         [(ngModel)]="employee.entreprise"
         name="entreprise"
-        (change)="onEntrepriseChange()"
+        (change)="onEntrepriseChange($event)"
         [class.is-invalid]="entrepriseInvalid"
       >
+        <!-- Option "Autre" placée en premier avec une classe de couleur -->
+        <option class="autre-option" value="Autre">Autre</option>
+
+        <!-- Les autres entreprises -->
         <option *ngFor="let entreprise of entreprises" [value]="entreprise.nom">
           {{ entreprise.nom }}
         </option>
-        <option value="Autre">Autre</option>
       </select>
       <div *ngIf="entrepriseInvalid" class="invalid-feedback">
         L'entreprise doit être sélectionnée.
@@ -128,17 +132,30 @@
     </div>
 
     <!-- Champ pour entrer une autre entreprise si "Autre" est sélectionné -->
-    <div class="form-group" *ngIf="isOtherEntreprise">
+    <div class="form-group" *ngIf="!entrepriseExistante">
       <label>Nom de l'entreprise</label>
       <input
         type="text"
         class="form-control"
         id="otherEntreprise"
-        [(ngModel)]="employee.entreprise"
+        [(ngModel)]="entrepriseSelectionnee"
         name="otherEntreprise"
       />
+      <div *ngIf="entrepriseInvalid" class="invalid-feedback">
+        Le nom de l'entreprise doit être renseigné.
+      </div>
     </div>
 
+    <!-- Bouton de soumission -->
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
+
+<!-- Style CSS intégré -->
+<style>
+  /* Applique une couleur spécifique à l'option "Autre" */
+  .autre-option {
+    color: #4848e4;  /* Une couleur rouge/orange (à ajuster selon tes préférences) */
+    font-weight: bold;  /* Rendre le texte en gras pour plus de visibilité */
+  }
+</style>

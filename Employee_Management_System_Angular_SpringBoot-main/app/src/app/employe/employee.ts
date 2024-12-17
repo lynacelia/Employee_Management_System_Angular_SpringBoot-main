@@ -1,3 +1,4 @@
+import { Entreprise } from '../entreprise/entreprise';
 export class Employee {
   id!: number;
   firstName!: string;
@@ -7,5 +8,6 @@ export class Employee {
   nationalId!: string;
   birthDate!: string;
   position!: string;
+  entreprise!: Entreprise | { nom: string, id: number };
 }
 

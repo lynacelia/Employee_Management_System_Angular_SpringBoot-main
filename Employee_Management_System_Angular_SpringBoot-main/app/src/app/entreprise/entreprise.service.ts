@@ -36,3 +36,5 @@ export class EntrepriseService {
     return this.httpClient.delete(`${this.baseURL}/${id}`);
   }
 }
+
+

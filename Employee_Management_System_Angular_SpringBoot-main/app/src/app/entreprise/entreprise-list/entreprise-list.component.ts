@@ -55,7 +55,6 @@ export class EntrepriseListComponent implements OnInit {
 
   // Méthode pour supprimer une entreprise
   deleteEntreprise(id: number) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cette entreprise ?')) {
       this.entrepriseService.deleteEntreprise(id).subscribe({
         next: (data) => {
           console.log('Entreprise supprimée:', data);
@@ -66,6 +65,6 @@ export class EntrepriseListComponent implements OnInit {
           this.message = 'Une erreur est survenue lors de la suppression de l\'entreprise.';
         }
       });
-    }
+
   }
 }

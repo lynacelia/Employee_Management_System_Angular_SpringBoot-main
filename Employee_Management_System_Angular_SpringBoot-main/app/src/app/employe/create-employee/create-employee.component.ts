@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Employee } from '../employee';
-import { EmployeeService } from '../employee.service';
-import { EntrepriseService } from '../entreprise.service'; // Import du service Entreprise
 import { Router } from '@angular/router';
-import { Entreprise } from '../entreprise'; // Import de l'interface Entreprise
+import { EmployeeService } from '../employee.service';
+import { EntrepriseService } from '../../entreprise/entreprise.service';
+import { Employee } from '../employee';
+import { Entreprise } from '../../entreprise/entreprise';
 
 @Component({
   selector: 'app-create-employee',
@@ -12,10 +12,13 @@ import { Entreprise } from '../entreprise'; // Import de l'interface Entreprise
 })
 export class CreateEmployeeComponent implements OnInit {
   employee: Employee = new Employee();
-  entreprises: Entreprise[] = []; // Liste des entreprises
-  isOtherEntreprise: boolean = false; // Pour l'option "Autre"
-  
-  // Variables d'erreur
+  entreprises: Entreprise[] = [];  // Liste des entreprises
+
+  // Ajout de l'option entreprise personnalisée
+  entrepriseSelectionnee: string = '';
+  entrepriseExistante: boolean = true;
+
+  // Indicateurs d'erreur pour l'employé
   firstNameInvalid: boolean = false;
   lastNameInvalid: boolean = false;
   emailInvalid: boolean = false;
@@ -27,24 +30,27 @@ export class CreateEmployeeComponent implements OnInit {
 
   constructor(
     private employeeService: EmployeeService,
-    private entrepriseService: EntrepriseService, // Injection correcte du service
+    private entrepriseService: EntrepriseService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    // Appel du service pour récupérer les entreprises
+    // Récupération des entreprises au moment de l'initialisation du composant
     this.entrepriseService.getEntreprises().subscribe(
       (data) => {
-        this.entreprises = data; // Stocke les entreprises dans le tableau
+        this.entreprises = data;
       },
       (error) => console.log(error)
     );
   }
 
   saveEmployee() {
+    // Si l'option 'Autre' est sélectionnée, on ajoute l'entreprise personnalisée
+    if (!this.entrepriseExistante) {
+      this.employee.entreprise = { nom: this.entrepriseSelectionnee, id: 0 };
+    }
     this.employeeService.createEmployee(this.employee).subscribe(
       (data) => {
-        console.log(data);
         this.goToEmployeeList();
       },
       (error) => console.log(error)
@@ -56,64 +62,56 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   onSubmit() {
-    // Validation du formulaire
+    // Réinitialisation des erreurs
     this.resetErrors();
 
+    // Validation des champs
     if (!this.employee.firstName || this.employee.firstName.trim() === '') {
       this.firstNameInvalid = true;
     }
-
     if (!this.employee.lastName || this.employee.lastName.trim() === '') {
       this.lastNameInvalid = true;
     }
-
     if (!this.employee.emailId || this.employee.emailId.trim() === '') {
       this.emailInvalid = true;
     }
-
     if (!this.employee.phoneNumber || this.employee.phoneNumber.trim() === '') {
       this.phoneInvalid = true;
     }
-
     if (!this.employee.nationalId || this.employee.nationalId.trim() === '') {
       this.nationalIdInvalid = true;
     }
-
-    if (!this.employee.birthDate || this.employee.birthDate.trim() === '') {
-      this.birthDateInvalid = true;
-    }
-
     if (!this.employee.position || this.employee.position.trim() === '') {
       this.positionInvalid = true;
     }
+    if (!this.employee.birthDate) {
+      this.birthDateInvalid = true;
+    }
 
-    if (!this.employee.entreprise || this.employee.entreprise.trim() === '') {
+    // Validation de l'entreprise
+    if (!this.entrepriseExistante && !this.entrepriseSelectionnee.trim()) {
       this.entrepriseInvalid = true;
     }
 
-    // Vérification si des erreurs sont présentes
+    // Si des erreurs existent, on arrête la soumission
     if (
       this.firstNameInvalid ||
       this.lastNameInvalid ||
       this.emailInvalid ||
       this.phoneInvalid ||
       this.nationalIdInvalid ||
-      this.birthDateInvalid ||
       this.positionInvalid ||
+      this.birthDateInvalid ||
       this.entrepriseInvalid
     ) {
       return;
     }
 
-    // Soumission si tout est valide
+    // Soumission du formulaire si tout est valide
     this.saveEmployee();
   }
 
-  // Lorsque l'utilisateur sélectionne "Autre", afficher un champ de saisie
-  onEntrepriseChange() {
-    this.isOtherEntreprise = this.employee.entreprise === 'Autre';
-  }
-
+  // Réinitialisation des erreurs
   private resetErrors() {
     this.firstNameInvalid = false;
     this.lastNameInvalid = false;
@@ -123,5 +121,14 @@ export class CreateEmployeeComponent implements OnInit {
     this.positionInvalid = false;
     this.birthDateInvalid = false;
     this.entrepriseInvalid = false;
+  }
+
+  // Changer l'option d'entreprise (soit dans la liste, soit "Autre")
+  onEntrepriseChange(event: any) {
+    if (event.target.value === 'Autre') {
+      this.entrepriseExistante = false;
+    } else {
+      this.entrepriseExistante = true;
+    }
   }
 }
